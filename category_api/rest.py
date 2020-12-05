@@ -22,7 +22,7 @@ class ParentSerializer(ModelSerializer):
 
 class SiblingsSerializer(ModelSerializer):
     class Meta:
-        model = Categories.objects.values_list('parent', flat=True)
+        model = Categories.objects.filter(parent_id=Categories.parent.id)
         fields = ['id', 'name']
 
 
