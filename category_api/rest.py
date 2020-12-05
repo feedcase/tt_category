@@ -14,10 +14,10 @@ class ChildrenSerializer(ModelSerializer):
         fields = ['id', 'name', 'children']
 
 
-# class ParentSerializer(ModelSerializer):
-#     class Meta:
-#         model = Categories
-#         fields = ['id', 'name']
+class ParentSerializer(ModelSerializer):
+    class Meta:
+        model = Categories
+        fields = ['id', 'name']
 
 
 class SiblingsSerializer(ModelSerializer):
@@ -28,17 +28,17 @@ class SiblingsSerializer(ModelSerializer):
 
 class CategoriesSerializer(ModelSerializer):
     children = ChildrenSerializer(many=True, read_only=True)
-    # parent = StringRelatedField(many=False, read_only=True)
-    # if parent is not None:
-    class Meta:
-        model = Categories
-        fields = ['id', 'name', 'parent', 'children']
-    # else:
-    #     siblings = SiblingsSerializer(many=True, read_only=True)
-    #
-    #     class Meta:
-    #         model = Categories
-    #         fields = ['id', 'name', 'parent', 'children', 'siblings']
+    parent = ParentSerializer(many=False, read_only=True)
+    if parent is not None:
+        class Meta:
+            model = Categories
+            fields = ['id', 'name', 'parent', 'children']
+    else:
+        siblings = SiblingsSerializer(many=True, read_only=True)
+
+        class Meta:
+            model = Categories
+            fields = ['id', 'name', 'parent', 'children', 'siblings']
 
 
 class CategoriesViewSet(ModelViewSet):
